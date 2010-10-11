@@ -1,8 +1,11 @@
 class IssuesController < ApplicationController
+
+  before_filter :init_project
+  
   # GET /issues
   # GET /issues.xml
   def index
-    @issues = Issue.all
+    @issues = @project.issues
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +16,7 @@ class IssuesController < ApplicationController
   # GET /issues/1
   # GET /issues/1.xml
   def show
-    @issue = Issue.find(params[:id])
+    @issue = @project.issues.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +27,7 @@ class IssuesController < ApplicationController
   # GET /issues/new
   # GET /issues/new.xml
   def new
-    @issue = Issue.new
+    @issue = @project.issues.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,17 +37,17 @@ class IssuesController < ApplicationController
 
   # GET /issues/1/edit
   def edit
-    @issue = Issue.find(params[:id])
+    @issue = @project.issues.find(params[:id])
   end
 
   # POST /issues
   # POST /issues.xml
   def create
-    @issue = Issue.new(params[:issue])
+    @issue = @project.issues.build(params[:issue])
 
     respond_to do |format|
       if @issue.save
-        format.html { redirect_to(@issue, :notice => 'Issue was successfully created.') }
+        format.html { redirect_to([@project, @issue], :notice => 'Issue was successfully created.') }
         format.xml  { render :xml => @issue, :status => :created, :location => @issue }
       else
         format.html { render :action => "new" }
@@ -56,11 +59,11 @@ class IssuesController < ApplicationController
   # PUT /issues/1
   # PUT /issues/1.xml
   def update
-    @issue = Issue.find(params[:id])
+    @issue = @project.issues.find(params[:id])
 
     respond_to do |format|
       if @issue.update_attributes(params[:issue])
-        format.html { redirect_to(@issue, :notice => 'Issue was successfully updated.') }
+        format.html { redirect_to([@project, @issue], :notice => 'Issue was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -72,12 +75,19 @@ class IssuesController < ApplicationController
   # DELETE /issues/1
   # DELETE /issues/1.xml
   def destroy
-    @issue = Issue.find(params[:id])
+    @issue = @project.issues.find(params[:id])
     @issue.destroy
 
     respond_to do |format|
-      format.html { redirect_to(issues_url) }
+      format.html { redirect_to([@project, :issues]) }
       format.xml  { head :ok }
     end
   end
+  
+  protected
+  
+  def init_project
+    @project = Project.find(params[:project_id])
+  end
+  
 end

@@ -15,13 +15,13 @@
     <td><%= issue.subject %></td>
     <td><%= issue.status %></td>
     <td><%= issue.body %></td>
-    <td><%= link_to 'Show', issue %></td>
-    <td><%= link_to 'Edit', edit_issue_path(issue) %></td>
-    <td><%= link_to 'Destroy', issue, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', [@project, issue] %></td>
+    <td><%= link_to 'Edit', [:edit, @project, issue] %></td>
+    <td><%= link_to 'Destroy', [@project, issue], :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Issue', new_issue_path %>
+<%= link_to 'New Issue', [:new, @project, :issue] %>

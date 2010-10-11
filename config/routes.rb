@@ -1,11 +1,14 @@
 Taskforce::Application.routes.draw do
-  resources :comments
 
-  resources :issues
-
-  resources :projects
+  resources :projects do
+    resources :issues do
+      resources :comments
+    end
+  end
 
   resources :categories
+  
+  root :to => "projects#index"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
