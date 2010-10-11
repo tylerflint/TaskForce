@@ -3,7 +3,7 @@ class Issue
   field :subject, :type => String
   field :status, :type => String
   field :body, :type => String
-  embedded_in :issue, :inverse_of => :issues
-  embeds_many :comments
   references_many :categories
+  referenced_in :project
+  embeds_many :comments
 end
