@@ -31,7 +31,18 @@ module Taskforce
     # config.i18n.default_locale = :de
 
     # JavaScript files you want as :defaults (application.js is always included).
-    # config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
+    config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
+
+    config.generators do |g|
+      # g.orm :active_record
+      g.orm :mongoid
+      # g.template_engine :haml
+      g.stylesheets false
+      g.test_framework  :shoulda
+      g.fallbacks[:shoulda] = :test_unit
+      # g.fixture_replacement :factory_girl
+      g.fixture_replacement :fabrication, :dir => "test/fabricators"
+    end
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
